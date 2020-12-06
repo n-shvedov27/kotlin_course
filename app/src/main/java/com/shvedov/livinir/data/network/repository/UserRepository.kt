@@ -11,7 +11,7 @@ import java.lang.RuntimeException
 class UserRepository {
 
     private val api = Retrofit.Builder()
-        .baseUrl("http://192.168.43.185/")
+        .baseUrl("http://192.168.1.185/")
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .build()
         .create(UserApi::class.java)
