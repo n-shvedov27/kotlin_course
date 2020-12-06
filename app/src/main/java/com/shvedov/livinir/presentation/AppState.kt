@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation
 
 enum class AppState {
 

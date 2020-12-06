@@ -4,7 +4,7 @@ import com.agoda.kakao.edit.KEditText
 import com.agoda.kakao.text.KButton
 import com.kaspersky.kaspresso.screens.KScreen
 import com.shvedov.livinir.R
-import com.shvedov.livinir.RegistrationFragment
+import com.shvedov.livinir.presentation.registration.RegistrationFragment
 
 object RegistrationScreen : KScreen<RegistrationScreen>() {
     override val layoutId: Int?

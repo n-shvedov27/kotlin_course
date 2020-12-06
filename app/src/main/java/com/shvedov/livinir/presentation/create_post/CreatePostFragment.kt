@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.create_post
 
 import android.content.Context
 import android.os.Bundle
@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.shvedov.livinir.CreatePostFragment.Companion.CREATE_POST_FAILED
-import com.shvedov.livinir.CreatePostFragment.Companion.CREATE_POST_SUCCESS
-import com.shvedov.livinir.MainActivity.Companion.USER_KEY
+import com.shvedov.livinir.R
+import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_FAILED
+import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_SUCCESS
+import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
 import com.shvedov.livinir.data.network.repository.PostRepository
-import com.shvedov.livinir.data.network.repository.UserRepository
+import com.shvedov.livinir.presentation.AppNavigation
+import com.shvedov.livinir.presentation.registration.RegistrationFragment
 import java.lang.Exception
 import java.lang.ref.WeakReference
 

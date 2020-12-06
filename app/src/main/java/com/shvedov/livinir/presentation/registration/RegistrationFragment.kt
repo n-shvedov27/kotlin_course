@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.registration
 
 import android.os.Bundle
 import android.os.Handler
@@ -10,8 +10,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.User
 import com.shvedov.livinir.data.network.repository.UserRepository
+import com.shvedov.livinir.presentation.AuthNavigation
 import java.lang.Exception
 import java.lang.ref.WeakReference
 

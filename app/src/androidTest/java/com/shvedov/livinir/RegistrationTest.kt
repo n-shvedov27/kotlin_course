@@ -3,6 +3,7 @@ package com.shvedov.livinir
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
+import com.shvedov.livinir.presentation.MainActivity
 import com.shvedov.livinir.screen.RegistrationScreen
 import org.junit.Rule
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.post_info
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.shvedov.livinir.R
 
 private const val ARG_PARAM_USERNAME = "user_name"
 private const val ARG_PARAM_TEXT = "text"

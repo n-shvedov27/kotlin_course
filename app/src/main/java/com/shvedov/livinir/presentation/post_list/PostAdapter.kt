@@ -1,9 +1,9 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.post_list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.Post
 
 class PostAdapter(

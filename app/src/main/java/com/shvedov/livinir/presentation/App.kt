@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation
 
 import android.app.Application
 

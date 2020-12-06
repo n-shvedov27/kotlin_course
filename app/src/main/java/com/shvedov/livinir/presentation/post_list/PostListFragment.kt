@@ -1,4 +1,4 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.post_list
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,13 +6,14 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.Post
 import com.shvedov.livinir.data.network.repository.PostRepository
+import com.shvedov.livinir.presentation.AppNavigation
 import java.lang.ref.WeakReference
 
 class PostListFragment: Fragment() {

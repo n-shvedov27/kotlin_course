@@ -1,9 +1,15 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation
 
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.Post
+import com.shvedov.livinir.presentation.create_post.CreatePostFragment
+import com.shvedov.livinir.presentation.login.LoginFragment
+import com.shvedov.livinir.presentation.post_info.PostInfoFragment
+import com.shvedov.livinir.presentation.post_list.PostListFragment
+import com.shvedov.livinir.presentation.registration.RegistrationFragment
 
 class MainActivity : AppCompatActivity(), AuthNavigation, AppNavigation {
 
@@ -108,7 +114,9 @@ class MainActivity : AppCompatActivity(), AuthNavigation, AppNavigation {
                 .commit()
         } else {
 
-            registrationFragment = supportFragmentManager.findFragmentByTag(REGISTRATION_FRAGMENT_TAG) as RegistrationFragment
+            registrationFragment = supportFragmentManager.findFragmentByTag(
+                REGISTRATION_FRAGMENT_TAG
+            ) as RegistrationFragment
         }
 
         currentScreen = REGISTRATION_SCREEN
@@ -143,7 +151,9 @@ class MainActivity : AppCompatActivity(), AuthNavigation, AppNavigation {
                 .commit()
         } else {
 
-            createPostFragment = supportFragmentManager.findFragmentByTag(CREATE_POST_FRAGMENT_TAG) as CreatePostFragment
+            createPostFragment = supportFragmentManager.findFragmentByTag(
+                CREATE_POST_FRAGMENT_TAG
+            ) as CreatePostFragment
         }
 
         currentScreen = CREATE_POST_SCREEN

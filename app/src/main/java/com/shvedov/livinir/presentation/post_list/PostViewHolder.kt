@@ -1,8 +1,9 @@
-package com.shvedov.livinir
+package com.shvedov.livinir.presentation.post_list
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.Post
 
 class PostViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
