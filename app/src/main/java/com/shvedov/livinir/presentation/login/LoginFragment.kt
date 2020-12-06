@@ -10,12 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.User
 import com.shvedov.livinir.data.network.repository.UserRepository
-import com.shvedov.livinir.presentation.AuthNavigation
+import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.utils.extension.requireActivityAs
 import java.lang.Exception
-import java.lang.ref.WeakReference
 
 class LoginFragment : Fragment() {
 
@@ -27,12 +28,6 @@ class LoginFragment : Fragment() {
     private val userRepository = UserRepository()
     private lateinit var passwordEditText: EditText
     private lateinit var emailEditText: EditText
-
-    var handler: WeakReference<AuthNavigation>? = null
-
-    fun attachToHandler(handler: AuthNavigation) {
-        this.handler = WeakReference(handler)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -59,7 +54,7 @@ class LoginFragment : Fragment() {
 
         view.findViewById<Button>(R.id.login_fragment_registration).setOnClickListener {
 
-            handler?.get()?.openRegistrationScreen()
+            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }
     }
 
@@ -68,11 +63,11 @@ class LoginFragment : Fragment() {
         val handler = Handler(Looper.getMainLooper()) {
 
             when (it.what) {
-                LOGIN_FAILED -> {
-                    Toast.makeText(requireContext(), it.obj as String, Toast.LENGTH_SHORT).show()
-                }
+                LOGIN_FAILED -> Toast.makeText(requireContext(), it.obj as String, Toast.LENGTH_SHORT).show()
                 LOGIN_SUCCESS -> {
-                    handler?.get()?.onAuthSuccess((it.obj as User).id!!)
+                    requireActivityAs<AuthService>().onAuthSuccess((it.obj as User).id!!)
+
+                    findNavController().navigate(R.id.action_loginFragment_to_postListFragment)
                 }
             }
             true

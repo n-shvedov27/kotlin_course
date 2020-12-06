@@ -4,29 +4,29 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
+import com.shvedov.livinir.data.network.repository.PostRepository
+import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
 import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_FAILED
 import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_SUCCESS
-import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
-import com.shvedov.livinir.data.network.repository.PostRepository
-import com.shvedov.livinir.presentation.AppNavigation
 import com.shvedov.livinir.presentation.registration.RegistrationFragment
-import java.lang.Exception
-import java.lang.ref.WeakReference
 
 class CreatePostFragment : Fragment() {
 
     companion object {
+
         const val CREATE_POST_FAILED = 1
         const val CREATE_POST_SUCCESS = 2
     }
+
     private val postRepository = PostRepository()
     private lateinit var titleEditText: EditText
     private lateinit var textEditText: EditText
@@ -54,7 +54,7 @@ class CreatePostFragment : Fragment() {
 
                     when (it.what) {
                         CREATE_POST_FAILED -> showError(it.obj as String)
-                        RegistrationFragment.REGISTRATION_SUCCESS -> handler?.get()?.openPostListScreen()
+                        RegistrationFragment.REGISTRATION_SUCCESS -> findNavController().popBackStack()
                     }
 
                     true
@@ -67,21 +67,14 @@ class CreatePostFragment : Fragment() {
                     text = textEditText.text.toString(),
                     authorId = userId
                 ).start()
-
-            } else {
+            }
+            else {
                 showError("Неверные данные")
             }
         }
     }
 
     private fun isValidInfo() = titleEditText.text.isNotEmpty() && textEditText.text.isNotEmpty()
-
-
-    var handler: WeakReference<AppNavigation>? = null
-
-    fun attachToHandler(handler: AppNavigation) {
-        this.handler = WeakReference(handler)
-    }
 
     private fun showError(errorMessage: String) {
 

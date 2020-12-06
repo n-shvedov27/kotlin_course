@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.shvedov.livinir.presentation.registration.RegistrationFragment"
+        android:label="RegistrationFragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_registrationFragment_to_postListFragment"
+            app:destination="@id/postListFragment"
+            app:popUpTo="@id/postListFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.shvedov.livinir.presentation.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_postListFragment"
+            app:destination="@id/postListFragment"
+            app:popUpTo="@id/postListFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/postListFragment"
+        android:name="com.shvedov.livinir.presentation.post_list.PostListFragment"
+        android:label="PostListFragment" >
+        <action
+            android:id="@+id/action_postListFragment_to_postInfoFragment"
+            app:destination="@id/postInfoFragment" />
+        <action
+            android:id="@+id/action_postListFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postInfoFragment"
+        android:name="com.shvedov.livinir.presentation.post_info.PostInfoFragment"
+        android:label="PostInfoFragment" >
+        <argument
+            android:name="username"
+            app:argType="string"/>
+        <argument
+            android:name="text"
+            app:argType="string" />
+        <argument
+            android:name="label"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.shvedov.livinir.presentation.create_post.CreatePostFragment"
+        android:label="CreatePostFragment" />
+</navigation>

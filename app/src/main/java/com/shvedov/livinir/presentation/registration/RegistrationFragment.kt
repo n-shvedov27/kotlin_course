@@ -10,12 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.User
 import com.shvedov.livinir.data.network.repository.UserRepository
-import com.shvedov.livinir.presentation.AuthNavigation
+import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.utils.extension.requireActivityAs
 import java.lang.Exception
-import java.lang.ref.WeakReference
 
 class RegistrationFragment : Fragment() {
 
@@ -24,17 +25,11 @@ class RegistrationFragment : Fragment() {
         const val REGISTRATION_SUCCESS = 2
     }
 
-    var handler: WeakReference<AuthNavigation>? = null
-
     private val userRepository = UserRepository()
 
     private lateinit var passwordEditText: EditText
     private lateinit var emailEditText: EditText
     private lateinit var usernameEditText: EditText
-
-    fun attachToHandler(handler: AuthNavigation) {
-        this.handler = WeakReference(handler)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_registration, container, false)
@@ -55,7 +50,11 @@ class RegistrationFragment : Fragment() {
 
                     when (it.what) {
                         REGISTRATION_FAILED -> showError(it.obj as String)
-                        REGISTRATION_SUCCESS -> handler?.get()?.onAuthSuccess((it.obj as User).id!!)
+                        REGISTRATION_SUCCESS -> {
+                            requireActivityAs<AuthService>().onAuthSuccess((it.obj as User).id!!)
+
+                            findNavController().navigate(R.id.action_registrationFragment_to_postListFragment)
+                        }
                     }
 
                     true
@@ -76,7 +75,7 @@ class RegistrationFragment : Fragment() {
 
         view.findViewById<Button>(R.id.login).setOnClickListener {
 
-            handler?.get()?.openLoginScreen()
+            findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }
     }
 

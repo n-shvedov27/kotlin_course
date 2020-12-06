@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.network.entity.Post
 import com.shvedov.livinir.data.network.repository.PostRepository
-import com.shvedov.livinir.presentation.AppNavigation
-import java.lang.ref.WeakReference
 
 class PostListFragment: Fragment() {
 
@@ -25,14 +24,11 @@ class PostListFragment: Fragment() {
 
     private lateinit var postListRecyclerView: RecyclerView
     private val adapter = PostAdapter(emptyList()) {
-        handler?.get()?.openPostInfo(it)
+
+        val action = PostListFragmentDirections.actionPostListFragmentToPostInfoFragment(it.author.username, it.text, it.title)
+        findNavController().navigate(action)
     }
     private val postRepository = PostRepository()
-    var handler: WeakReference<AppNavigation>? = null
-
-    fun attachToHandler(handler: AppNavigation) {
-        this.handler = WeakReference(handler)
-    }
 
     private fun showError(errorMessage: String) {
 
@@ -47,12 +43,12 @@ class PostListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.post_list_fragment_create_post).setOnClickListener {
-            handler?.get()?.openCreatePostScreen()
+
+            findNavController().navigate(R.id.action_postListFragment_to_createPostFragment)
         }
 
         postListRecyclerView = view.findViewById(R.id.post_list_fragment_rv)
         postListRecyclerView.adapter = adapter
-
     }
 
     override fun onResume() {
