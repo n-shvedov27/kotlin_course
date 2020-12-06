@@ -1,0 +1,46 @@
+*.*.*.*.apk.zip
+*.0.0.1.apk
+*.*.*.*.apk
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+/*/*/bin/
+/*/bin/
+/*/*/gen/
+/*/gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
+.idea/
+.gradle
+/*/local.properties
+/*/out
+/*/*/build
+/*/build
+/build
+/captures
+/*/*/production
+*.iws
+*.ipr
+*~
+*.swp
+*.iml
+*.hprof
+
+/gradle_tasks/detekt/detekt_report.html
+/gradle_tasks/detekt/detekt_report.xml
