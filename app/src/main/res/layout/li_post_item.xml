@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +25,6 @@
             android:id="@+id/li_post_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/li_post_title" />
 
@@ -34,7 +32,6 @@
             android:id="@+id/li_post_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Author"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/li_post_text" />

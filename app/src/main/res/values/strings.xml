@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">Livinir</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_post_title_hint">Заголовок</string>
+    <string name="create_post_text_hint">Текс поста</string>
+    <string name="create_post_create_btn_text">Создать пост</string>
+    <string name="login_fragment_email_hint">Email</string>
+    <string name="login_fragment_password_hint">Пароль</string>
+    <string name="login_fragment_registration_btn_text">Регистрация</string>
+    <string name="login_fragment_login_btn_text">Войти</string>
+    <string name="create_post_fragment_create_btn_text">Создать пост</string>
+    <string name="registration_fragment_name_hint">Name</string>
+    <string name="registration_fragment_email_hint">Email</string>
+    <string name="registration_fragment_password_hint">Password</string>
+    <string name="registration_fragment_registration_btn_text">Зарегистрироваться</string>
+    <string name="registration_fragment_login_btn_text">Логин</string>
 </resources>

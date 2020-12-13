@@ -2,8 +2,6 @@ package com.shvedov.livinir.presentation.create_post
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.PostRepository
 import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
-import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_FAILED
-import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_SUCCESS
-import com.shvedov.livinir.presentation.registration.RegistrationFragment
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -57,8 +51,8 @@ class CreatePostFragment : Fragment() {
 
         userId = requireActivity().getPreferences(Context.MODE_PRIVATE).getString(USER_KEY, "")!!
 
-        titleEditText = view.findViewById(R.id.create_post_fragment_title)
-        textEditText = view.findViewById(R.id.create_post_fragment_text)
+        titleEditText = view.findViewById(R.id.create_post_fragment_title_hint)
+        textEditText = view.findViewById(R.id.create_post_fragment_text_hint)
 
         view.findViewById<Button>(R.id.create_post_fragment_create_btn).setOnClickListener {
 
