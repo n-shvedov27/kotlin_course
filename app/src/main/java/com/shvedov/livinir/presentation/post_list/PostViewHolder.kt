@@ -4,7 +4,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.entity.Post
+import com.shvedov.livinir.data.db.entity.PostDb
+import com.shvedov.livinir.data.network.entity.PostNet
+import com.shvedov.livinir.presentation.entity.Post
 
 class PostViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 

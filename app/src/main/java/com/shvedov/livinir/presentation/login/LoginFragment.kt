@@ -12,10 +12,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.entity.User
-import com.shvedov.livinir.data.network.repository.UserRepository
+import com.shvedov.livinir.data.network.entity.UserNet
+import com.shvedov.livinir.data.repository.UserRepository
 import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.presentation.entity.User
 import com.shvedov.livinir.utils.extension.requireActivityAs
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class LoginFragment : Fragment() {
@@ -44,7 +48,19 @@ class LoginFragment : Fragment() {
 
             if (isValidInfo()) {
 
-                login()
+                login(
+                    email = emailEditText.text.toString(),
+                    password = passwordEditText.text.toString()
+                ).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+
+                            requireActivityAs<AuthService>().onAuthSuccess(it.id)
+                            findNavController().navigate(R.id.action_loginFragment_to_postListFragment)
+                        },
+                        { showError(it.message ?: it.toString()) }
+                    )
             } else {
 
                 Toast.makeText(requireContext(), "Неверные данные", Toast.LENGTH_SHORT).show()
@@ -58,37 +74,20 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun login(){
+    private fun showError(errorMessage: String) {
 
-        val handler = Handler(Looper.getMainLooper()) {
+        Toast.makeText(this.requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+    }
 
-            when (it.what) {
-                LOGIN_FAILED -> Toast.makeText(requireContext(), it.obj as String, Toast.LENGTH_SHORT).show()
-                LOGIN_SUCCESS -> {
-                    requireActivityAs<AuthService>().onAuthSuccess((it.obj as User).id!!)
+    private fun login(email: String, password: String) = Single.create<User> {
 
-                    findNavController().navigate(R.id.action_loginFragment_to_postListFragment)
-                }
-            }
-            true
-        }
-
-
-        Thread {
-
-            val msg = try {
-
-                val user = userRepository.login(
-                    email = emailEditText.text.toString(),
-                    password = passwordEditText.text.toString()
-                )
-                handler.obtainMessage(LOGIN_SUCCESS, user)
-            } catch (e: Exception) {
-                handler.obtainMessage(LOGIN_FAILED, e.message)
-            }
-            handler.sendMessage(msg)
-
-        }.start()
+        kotlin.runCatching {
+            val user = userRepository.login(
+                email = email,
+                password = password
+            )
+            it.onSuccess(user)
+        }.onFailure { e -> it.onError(e) }
     }
 
     private fun isValidInfo() = emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()

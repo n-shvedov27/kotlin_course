@@ -2,7 +2,7 @@ package com.shvedov.livinir.data.network.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class UserNet(
 
     @SerializedName("id")
     val id: String? = null,

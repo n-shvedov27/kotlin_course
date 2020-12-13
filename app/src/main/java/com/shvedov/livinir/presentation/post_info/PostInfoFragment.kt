@@ -8,10 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.shvedov.livinir.R
 
-private const val ARG_PARAM_USERNAME = "user_name"
-private const val ARG_PARAM_TEXT = "text"
-private const val ARG_PARAM_LABEL = "label"
-
 class PostInfoFragment : Fragment() {
 
     private var username: String? = null

@@ -2,10 +2,10 @@ package com.shvedov.livinir.data.network.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class Post(
+data class PostNet(
 
     @SerializedName("id")
-    val id: String? = null,
+    val id: String,
 
     @SerializedName("title")
     val title: String,
@@ -14,5 +14,5 @@ data class Post(
     val text: String,
 
     @SerializedName("author")
-    val author: User
+    val author: UserNet
 )

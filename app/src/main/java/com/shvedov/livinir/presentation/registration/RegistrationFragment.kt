@@ -12,18 +12,19 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.entity.User
-import com.shvedov.livinir.data.network.repository.UserRepository
+import com.shvedov.livinir.data.network.entity.UserNet
+import com.shvedov.livinir.data.repository.UserRepository
 import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.presentation.entity.User
 import com.shvedov.livinir.utils.extension.requireActivityAs
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
 
 class RegistrationFragment : Fragment() {
-
-    companion object {
-        const val REGISTRATION_FAILED = 1
-        const val REGISTRATION_SUCCESS = 2
-    }
 
     private val userRepository = UserRepository()
 
@@ -33,6 +34,16 @@ class RegistrationFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_registration, container, false)
+    }
+
+    private fun registration(username: String, email: String, password: String) = Single.create<User> {
+
+        kotlin.runCatching {
+
+            val user = userRepository.registration(username, email, password)
+            it.onSuccess(user)
+
+        }.onFailure { e -> it.onError(e) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,28 +56,23 @@ class RegistrationFragment : Fragment() {
         view.findViewById<Button>(R.id.registration).setOnClickListener {
 
             if (isValidInfo()) {
-
-                val handler = Handler(Looper.getMainLooper()) {
-
-                    when (it.what) {
-                        REGISTRATION_FAILED -> showError(it.obj as String)
-                        REGISTRATION_SUCCESS -> {
-                            requireActivityAs<AuthService>().onAuthSuccess((it.obj as User).id!!)
-
-                            findNavController().navigate(R.id.action_registrationFragment_to_postListFragment)
-                        }
-                    }
-
-                    true
-                }
-
-                RegistrationThread(
-                    handler = handler,
-                    repository = userRepository,
+                
+                registration(
                     username = usernameEditText.text.toString(),
                     password = passwordEditText.text.toString(),
                     email = emailEditText.text.toString()
-                ).start()
+                ).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            requireActivityAs<AuthService>().onAuthSuccess(it.id)
+                            findNavController().navigate(R.id.action_registrationFragment_to_postListFragment)
+
+                        },
+                        {
+                            showError(it.message ?: it.toString())
+                        }
+                    )
 
             } else {
                 showError("Неверные данные")
@@ -84,30 +90,5 @@ class RegistrationFragment : Fragment() {
     private fun showError(errorMessage: String) {
 
         Toast.makeText(this.requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-    }
-}
-
-class RegistrationThread(
-
-    private val handler: Handler,
-    private val repository: UserRepository,
-    private val username: String,
-    private val email: String,
-    private val password: String
-
-) : Thread() {
-
-    override fun run() {
-
-        val msg = try {
-
-            val user = repository.registration(username, email, password)
-            handler.obtainMessage(RegistrationFragment.REGISTRATION_SUCCESS, user)
-        } catch (e: Exception) {
-
-            handler.obtainMessage(RegistrationFragment.REGISTRATION_FAILED, e.message)
-        }
-
-        handler.sendMessage(msg)
     }
 }

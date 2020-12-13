@@ -13,11 +13,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.repository.PostRepository
+import com.shvedov.livinir.data.repository.PostRepository
 import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
 import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_FAILED
 import com.shvedov.livinir.presentation.create_post.CreatePostFragment.Companion.CREATE_POST_SUCCESS
 import com.shvedov.livinir.presentation.registration.RegistrationFragment
+import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class CreatePostFragment : Fragment() {
 
@@ -38,6 +42,16 @@ class CreatePostFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_create_post, container, false)
     }
 
+    private fun createPost(title: String, text: String, authorId: String) = Completable.create {
+
+        kotlin.runCatching {
+
+            postRepository.createPost(title, text, authorId)
+            it.onComplete()
+
+        }.onFailure { e -> it.onError(e) }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,23 +64,13 @@ class CreatePostFragment : Fragment() {
 
             if (isValidInfo()) {
 
-                val handler = Handler(Looper.getMainLooper()) {
-
-                    when (it.what) {
-                        CREATE_POST_FAILED -> showError(it.obj as String)
-                        RegistrationFragment.REGISTRATION_SUCCESS -> findNavController().popBackStack()
-                    }
-
-                    true
-                }
-
-                CreatePostThread(
-                    handler = handler,
-                    repository = postRepository,
+                createPost(
                     title = titleEditText.text.toString(),
                     text = textEditText.text.toString(),
                     authorId = userId
-                ).start()
+                ).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ findNavController().popBackStack() }, { showError(it.message ?: it.toString()) })
             }
             else {
                 showError("Неверные данные")
@@ -79,30 +83,5 @@ class CreatePostFragment : Fragment() {
     private fun showError(errorMessage: String) {
 
         Toast.makeText(this.requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-    }
-}
-
-class CreatePostThread(
-
-    private val handler: Handler,
-    private val repository: PostRepository,
-    private val title: String,
-    private val text: String,
-    private val authorId: String
-
-) : Thread() {
-
-    override fun run() {
-
-        val msg = try {
-
-            val user = repository.createPost(title, text, authorId)
-            handler.obtainMessage(CREATE_POST_SUCCESS, user)
-        } catch (e: Exception) {
-
-            handler.obtainMessage(CREATE_POST_FAILED, e.message)
-        }
-
-        handler.sendMessage(msg)
     }
 }

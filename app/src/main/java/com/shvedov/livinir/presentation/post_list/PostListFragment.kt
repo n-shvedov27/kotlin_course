@@ -1,8 +1,6 @@
 package com.shvedov.livinir.presentation.post_list
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.entity.Post
-import com.shvedov.livinir.data.network.repository.PostRepository
+import com.shvedov.livinir.data.mapper.PostDbToPostMapper
+import com.shvedov.livinir.data.repository.PostRepository
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-class PostListFragment: Fragment() {
+class PostListFragment : Fragment() {
 
-    companion object {
-        const val GET_POSTS_SUCCESS = 0
-        const val GET_POSTS_FAIL = 1
-    }
+    private val mapperDb = PostDbToPostMapper()
 
     private lateinit var postListRecyclerView: RecyclerView
     private val adapter = PostAdapter(emptyList()) {
@@ -28,11 +26,22 @@ class PostListFragment: Fragment() {
         val action = PostListFragmentDirections.actionPostListFragmentToPostInfoFragment(it.author.username, it.text, it.title)
         findNavController().navigate(action)
     }
+
     private val postRepository = PostRepository()
 
     private fun showError(errorMessage: String) {
 
         Toast.makeText(this.requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun pullPosts() = Completable.create {
+
+        kotlin.runCatching {
+
+            postRepository.pullAllPosts()
+            it.onComplete()
+
+        }.onFailure { e -> it.onError(e) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,6 +56,10 @@ class PostListFragment: Fragment() {
             findNavController().navigate(R.id.action_postListFragment_to_createPostFragment)
         }
 
+        postRepository.getAllPost().addChangeListener { result ->
+            adapter.updatePosts(result.map { mapperDb.invoke(it) })
+        }
+
         postListRecyclerView = view.findViewById(R.id.post_list_fragment_rv)
         postListRecyclerView.adapter = adapter
     }
@@ -54,45 +67,12 @@ class PostListFragment: Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val handler = Handler(Looper.getMainLooper()) {
-
-            when (it.what) {
-                GET_POSTS_FAIL -> showError(it.obj as String)
-                GET_POSTS_SUCCESS -> {
-
-                    val posts = it.obj as List<Post>
-                    adapter.updatePosts(posts)
-                }
-            }
-
-            true
-        }
-
-        GetPostsThread(
-            handler = handler,
-            repository = postRepository
-        ).start()
-    }
-}
-
-class GetPostsThread(
-
-    private val handler: Handler,
-    private val repository: PostRepository
-
-) : Thread() {
-
-    override fun run() {
-
-        val msg = try {
-
-            val posts = repository.getAllPost()
-            handler.obtainMessage(PostListFragment.GET_POSTS_SUCCESS, posts)
-        } catch (e: Exception) {
-
-            handler.obtainMessage(PostListFragment.GET_POSTS_FAIL, e.message)
-        }
-
-        handler.sendMessage(msg)
+        pullPosts()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .onErrorComplete {
+                showError(it.message ?: it.toString())
+                true
+            }.subscribe()
     }
 }
