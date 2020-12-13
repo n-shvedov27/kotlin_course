@@ -63,7 +63,7 @@
         android:label="CreatePostFragment" />
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.shvedov.livinir.presentation.SplashFragment"
+        android:name="com.shvedov.livinir.presentation.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action

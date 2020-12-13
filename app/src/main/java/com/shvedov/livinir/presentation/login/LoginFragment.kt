@@ -1,8 +1,6 @@
 package com.shvedov.livinir.presentation.login
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +10,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
-import com.shvedov.livinir.data.network.entity.UserNet
 import com.shvedov.livinir.data.repository.UserRepository
 import com.shvedov.livinir.presentation.AuthService
 import com.shvedov.livinir.presentation.entity.User
-import com.shvedov.livinir.utils.extension.requireActivityAs
+import com.shvedov.livinir.presentation.extension.requireActivityAs
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 
 class LoginFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.shvedov.livinir.utils.extension
+package com.shvedov.livinir.presentation.extension
 
 import androidx.fragment.app.Fragment
 

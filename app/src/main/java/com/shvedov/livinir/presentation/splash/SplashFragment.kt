@@ -1,4 +1,4 @@
-package com.shvedov.livinir.presentation
+package com.shvedov.livinir.presentation.splash
 
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
+import com.shvedov.livinir.presentation.MainActivity
 
 class SplashFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
