@@ -2,8 +2,9 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/registrationFragment"
@@ -60,4 +61,16 @@
         android:id="@+id/createPostFragment"
         android:name="com.shvedov.livinir.presentation.create_post.CreatePostFragment"
         android:label="CreatePostFragment" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.shvedov.livinir.presentation.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_postListFragment"
+            app:destination="@id/postListFragment" />
+    </fragment>
 </navigation>
