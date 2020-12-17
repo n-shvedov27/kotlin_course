@@ -22,7 +22,7 @@ class SplashFragment : Fragment() {
         val userId = requireActivity().getPreferences(Context.MODE_PRIVATE).getString(MainActivity.USER_KEY, null)
 
 //        if (userId == null) {
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+//            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
 //        } else {
 //            findNavController().navigate(R.id.action_splashFragment_to_postListFragment)
 //        }

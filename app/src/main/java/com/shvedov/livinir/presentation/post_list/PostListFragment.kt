@@ -1,5 +1,6 @@
 package com.shvedov.livinir.presentation.post_list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.mapper.PostDbToPostMapper
 import com.shvedov.livinir.data.repository.PostRepository
+import com.shvedov.livinir.data.repository.PostRepositoryImpl
+import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class PostListFragment : Fragment() {
 
@@ -27,7 +31,13 @@ class PostListFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private val postRepository = PostRepository()
+    @Inject
+    lateinit var postRepository: PostRepository
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerAppComponent.create().postListComponent().inject(this)
+    }
 
     private fun showError(errorMessage: String) {
 

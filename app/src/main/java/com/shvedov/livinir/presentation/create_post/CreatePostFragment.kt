@@ -12,24 +12,27 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.PostRepository
+import com.shvedov.livinir.data.repository.PostRepositoryImpl
 import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
+import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class CreatePostFragment : Fragment() {
 
-    companion object {
-
-        const val CREATE_POST_FAILED = 1
-        const val CREATE_POST_SUCCESS = 2
-    }
-
-    private val postRepository = PostRepository()
+    @Inject
+    lateinit var postRepository: PostRepository
     private lateinit var titleEditText: EditText
     private lateinit var textEditText: EditText
 
     private lateinit var userId: String
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerAppComponent.create().createPostComponent().inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

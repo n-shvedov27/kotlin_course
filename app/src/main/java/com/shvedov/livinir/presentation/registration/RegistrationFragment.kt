@@ -1,5 +1,6 @@
 package com.shvedov.livinir.presentation.registration
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +12,25 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.UserRepository
+import com.shvedov.livinir.data.repository.UserRepositoryImpl
 import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import com.shvedov.livinir.presentation.entity.User
 import com.shvedov.livinir.presentation.extension.requireActivityAs
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class RegistrationFragment : Fragment() {
 
-    private val userRepository = UserRepository()
+    @Inject
+    lateinit var userRepository: UserRepository
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        DaggerAppComponent.create().registrationComponent().inject(this)
+    }
 
     private lateinit var passwordEditText: EditText
     private lateinit var emailEditText: EditText
