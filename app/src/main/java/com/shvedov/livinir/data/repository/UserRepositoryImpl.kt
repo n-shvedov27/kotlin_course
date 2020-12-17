@@ -1,7 +1,6 @@
 package com.shvedov.livinir.data.repository
 
 import com.google.gson.GsonBuilder
-import com.shvedov.livinir.data.mapper.UserDbToUserMapper
 import com.shvedov.livinir.data.mapper.UserNetToUserMapper
 import com.shvedov.livinir.data.network.api.UserApi
 import com.shvedov.livinir.data.network.api.request.LoginRequest
@@ -14,12 +13,10 @@ import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
 
-    private val api: UserApi
+    private val api: UserApi,
+    private val mapperNet: UserNetToUserMapper
 
 ) : UserRepository {
-
-    private val mapperDb = UserDbToUserMapper()
-    private val mapperNet = UserNetToUserMapper()
 
     companion object {
         private val api = Retrofit.Builder()

@@ -22,8 +22,6 @@ import javax.inject.Inject
 
 class PostListFragment : Fragment() {
 
-    private val mapperDb = PostDbToPostMapper()
-
     private lateinit var postListRecyclerView: RecyclerView
     private val adapter = PostAdapter(emptyList()) {
 
@@ -33,6 +31,9 @@ class PostListFragment : Fragment() {
 
     @Inject
     lateinit var postRepository: PostRepository
+
+    @Inject
+    lateinit var mapperDb: PostDbToPostMapper
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

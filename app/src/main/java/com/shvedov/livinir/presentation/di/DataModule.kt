@@ -2,6 +2,8 @@ package com.shvedov.livinir.presentation.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.shvedov.livinir.data.mapper.PostNetToPostDbMapper
+import com.shvedov.livinir.data.mapper.UserNetToUserMapper
 import com.shvedov.livinir.data.network.api.PostApi
 import com.shvedov.livinir.data.network.api.UserApi
 import com.shvedov.livinir.data.repository.PostRepository
@@ -50,9 +52,11 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(api: PostApi): PostRepository = PostRepositoryImpl(api)
+    fun providePostRepository(api: PostApi, mapperNetToDb: PostNetToPostDbMapper): PostRepository =
+        PostRepositoryImpl(api, mapperNetToDb)
 
     @Provides
     @Singleton
-    fun provideUserRepository(api: UserApi): UserRepository = UserRepositoryImpl(api)
+    fun provideUserRepository(api: UserApi, mapperNet: UserNetToUserMapper): UserRepository =
+        UserRepositoryImpl(api, mapperNet)
 }

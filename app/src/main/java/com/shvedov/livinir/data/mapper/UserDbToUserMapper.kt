@@ -2,8 +2,11 @@ package com.shvedov.livinir.data.mapper
 
 import com.shvedov.livinir.data.db.entity.UserDb
 import com.shvedov.livinir.presentation.entity.User
+import javax.inject.Inject
 
-class UserDbToUserMapper: (UserDb) -> User {
+class UserDbToUserMapper @Inject constructor(
+
+): (UserDb) -> User {
 
     override fun invoke(model: UserDb): User {
         return User(

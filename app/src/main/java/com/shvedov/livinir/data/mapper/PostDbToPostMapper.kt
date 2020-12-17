@@ -2,10 +2,13 @@ package com.shvedov.livinir.data.mapper
 
 import com.shvedov.livinir.data.db.entity.PostDb
 import com.shvedov.livinir.presentation.entity.Post
+import javax.inject.Inject
 
-class PostDbToPostMapper : (PostDb) -> Post {
+class PostDbToPostMapper @Inject constructor(
 
-    private val userDbToUserMapper = UserDbToUserMapper()
+    private val userDbToUserMapper: UserDbToUserMapper
+
+) : (PostDb) -> Post {
 
     override fun invoke(model: PostDb): Post {
         return Post(

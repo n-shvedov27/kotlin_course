@@ -1,28 +1,21 @@
 package com.shvedov.livinir.data.repository
 
-import com.google.gson.GsonBuilder
 import com.shvedov.livinir.data.db.entity.PostDb
 import com.shvedov.livinir.data.db.entity.UserDb
-import com.shvedov.livinir.data.mapper.PostDbToPostMapper
 import com.shvedov.livinir.data.mapper.PostNetToPostDbMapper
-import com.shvedov.livinir.data.mapper.PostNetToPostMapper
 import com.shvedov.livinir.data.network.api.PostApi
 import com.shvedov.livinir.data.network.api.request.CreatePostRequest
-import com.shvedov.livinir.presentation.entity.Post
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
 
-    private val api: PostApi
+    private val api: PostApi,
+    private val mapperNetToDb: PostNetToPostDbMapper
 
 ) : PostRepository {
-
-    private val mapperNetToDb = PostNetToPostDbMapper()
 
     override fun getAllPost(): RealmResults<PostDb> {
 
