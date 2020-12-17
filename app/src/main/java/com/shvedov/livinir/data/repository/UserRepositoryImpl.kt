@@ -6,8 +6,6 @@ import com.shvedov.livinir.data.network.api.UserApi
 import com.shvedov.livinir.data.network.api.request.LoginRequest
 import com.shvedov.livinir.data.network.entity.UserNet
 import com.shvedov.livinir.presentation.entity.User
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.RuntimeException
 import javax.inject.Inject
 
@@ -17,15 +15,6 @@ class UserRepositoryImpl @Inject constructor(
     private val mapperNet: UserNetToUserMapper
 
 ) : UserRepository {
-
-    companion object {
-        private val api = Retrofit.Builder()
-            .baseUrl("http://192.168.1.185/")
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .build()
-            .create(UserApi::class.java)
-    }
-
 
     override fun registration(username: String, email: String, password: String): User {
 
