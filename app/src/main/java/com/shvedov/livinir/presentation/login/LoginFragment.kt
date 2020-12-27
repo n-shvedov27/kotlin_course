@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.UserRepository
@@ -19,6 +21,7 @@ import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import com.shvedov.livinir.presentation.entity.User
 import com.shvedov.livinir.presentation.extension.requireActivityAs
 import com.shvedov.livinir.presentation.post_list.PostListFragmentDirections
+import com.shvedov.livinir.utils.injectViewModel
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,13 +30,20 @@ import javax.inject.Inject
 class LoginFragment : Fragment() {
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var passwordEditText: EditText
     private lateinit var emailEditText: EditText
+    private lateinit var viewModel: LoginViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerAppComponent.create().plusLoginComponent().inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -85,10 +95,8 @@ class LoginFragment : Fragment() {
     private fun login(email: String, password: String) = Single.create<User> {
 
         kotlin.runCatching {
-            val user = userRepository.login(
-                email = email,
-                password = password
-            )
+
+            val user = viewModel.login(email, password)
             it.onSuccess(user)
         }.onFailure { e -> it.onError(e) }
     }

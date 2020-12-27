@@ -4,7 +4,11 @@ import com.shvedov.livinir.presentation.login.LoginFragment
 import dagger.Component
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(
+    modules = [
+        LoginModule::class
+    ]
+)
 interface LoginComponent {
     fun inject(loginFragment: LoginFragment)
 }
