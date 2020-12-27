@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
@@ -70,7 +71,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        view.findViewById<Button>(R.id.login_fragment_registration).setOnClickListener {
+        view.findViewById<TextView>(R.id.login_fragment_registration).setOnClickListener {
 
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
         }

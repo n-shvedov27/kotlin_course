@@ -3,9 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/space_4"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_between_logo_and_inputs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_between_logo_and_inputs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".3" />
 
     <EditText
         android:id="@+id/login_fragment_email"
@@ -13,10 +30,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/login_fragment_email_hint"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/login_fragment_password"
+        app:layout_constraintTop_toTopOf="@+id/guideline_between_logo_and_inputs" />
 
     <EditText
         android:id="@+id/login_fragment_password"
@@ -24,26 +40,36 @@
         android:layout_height="wrap_content"
         android:hint="@string/login_fragment_password_hint"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_between_inputs_and_buttons"
         app:layout_constraintTop_toBottomOf="@+id/login_fragment_email" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_between_inputs_and_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".6" />
+
     <Button
+        android:id="@+id/login_fragment_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_fragment_login_btn_text"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@+id/login_fragment_registration"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline_between_inputs_and_buttons" />
+
+    <TextView
         android:id="@+id/login_fragment_registration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
         android:text="@string/login_fragment_registration_btn_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_password" />
-
-    <Button
-        android:id="@+id/login_fragment_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_fragment_login_btn_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_fragment_registration" />
-
+        app:layout_constraintTop_toBottomOf="@+id/login_fragment_login"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,8 +11,7 @@ import com.shvedov.livinir.R
 import com.shvedov.livinir.presentation.MainActivity
 
 class SplashFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
@@ -22,9 +21,10 @@ class SplashFragment : Fragment() {
         val userId = requireActivity().getPreferences(Context.MODE_PRIVATE).getString(MainActivity.USER_KEY, null)
 
 //        if (userId == null) {
-//            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
 //        } else {
 //            findNavController().navigate(R.id.action_splashFragment_to_postListFragment)
 //        }
+
     }
 }
