@@ -83,7 +83,7 @@ class RegistrationFragment : Fragment() {
             }
         }
 
-        view.findViewById<Button>(R.id.login).setOnClickListener {
+        view.findViewById<View>(R.id.login).setOnClickListener {
 
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }

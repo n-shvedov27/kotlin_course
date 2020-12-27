@@ -9,9 +9,9 @@
     <string name="login_fragment_registration_btn_text">Создать аккаунт</string>
     <string name="login_fragment_login_btn_text">Войти</string>
     <string name="create_post_fragment_create_btn_text">Создать пост</string>
-    <string name="registration_fragment_name_hint">Name</string>
+    <string name="registration_fragment_name_hint">Имя</string>
     <string name="registration_fragment_email_hint">Email</string>
-    <string name="registration_fragment_password_hint">Password</string>
-    <string name="registration_fragment_registration_btn_text">Зарегистрироваться</string>
-    <string name="registration_fragment_login_btn_text">Логин</string>
+    <string name="registration_fragment_password_hint">Пароль</string>
+    <string name="registration_fragment_registration_btn_text">Регистрация</string>
+    <string name="registration_fragment_login_btn_text">Уже есть аккаунт</string>
 </resources>
