@@ -14,6 +14,8 @@ import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.UserRepository
 import com.shvedov.livinir.data.repository.UserRepositoryImpl
 import com.shvedov.livinir.presentation.AuthService
+import com.shvedov.livinir.presentation.core_ui.BaseFragment
+import com.shvedov.livinir.presentation.create_post.CreatePostViewModel
 import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import com.shvedov.livinir.presentation.entity.User
 import com.shvedov.livinir.presentation.extension.requireActivityAs
@@ -22,10 +24,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class RegistrationFragment : Fragment() {
+class RegistrationFragment : BaseFragment<RegistrationViewModel>() {
 
-    @Inject
-    lateinit var userRepository: UserRepository
+    override val viewModel: RegistrationViewModel by injectViewModel()
+    override val layoutResId = R.layout.fragment_registration
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,15 +38,11 @@ class RegistrationFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private lateinit var usernameEditText: EditText
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_registration, container, false)
-    }
-
     private fun registration(username: String, email: String, password: String) = Single.create<User> {
 
         kotlin.runCatching {
 
-            val user = userRepository.registration(username, email, password)
+            val user = viewModel.registration(username, email, password)
             it.onSuccess(user)
 
         }.onFailure { e -> it.onError(e) }

@@ -15,6 +15,7 @@ import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.PostRepository
 import com.shvedov.livinir.data.repository.PostRepositoryImpl
 import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
+import com.shvedov.livinir.presentation.core_ui.BaseFragment
 import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import com.shvedov.livinir.presentation.login.LoginViewModel
 import com.shvedov.livinir.utils.injectViewModel
@@ -23,30 +24,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class CreatePostFragment : Fragment() {
+class CreatePostFragment : BaseFragment<CreatePostViewModel>() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    override val layoutResId = R.layout.fragment_create_post
 
     private lateinit var titleEditText: EditText
     private lateinit var textEditText: EditText
-    private lateinit var viewModel: CreatePostViewModel
+
+    override val viewModel: CreatePostViewModel by injectViewModel()
 
     private lateinit var userId: String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerAppComponent.create().createPostComponent().inject(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = injectViewModel(viewModelFactory)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_create_post, container, false)
     }
 
     private fun createPost(title: String, text: String, authorId: String) = Completable.create {

@@ -14,13 +14,17 @@ import com.shvedov.livinir.R
 import com.shvedov.livinir.data.mapper.PostDbToPostMapper
 import com.shvedov.livinir.data.repository.PostRepository
 import com.shvedov.livinir.data.repository.PostRepositoryImpl
+import com.shvedov.livinir.presentation.core_ui.BaseFragment
 import com.shvedov.livinir.presentation.di.DaggerAppComponent
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class PostListFragment : Fragment() {
+class PostListFragment : BaseFragment<PostListViewModel>() {
+
+    override val viewModel: PostListViewModel by injectViewModel()
+    override val layoutResId = R.layout.fragment_post_list
 
     private lateinit var postListRecyclerView: RecyclerView
     private val adapter = PostAdapter(emptyList()) {
@@ -28,9 +32,6 @@ class PostListFragment : Fragment() {
         val action = PostListFragmentDirections.actionPostListFragmentToPostInfoFragment(it.author.username, it.text, it.title)
         findNavController().navigate(action)
     }
-
-    @Inject
-    lateinit var postRepository: PostRepository
 
     @Inject
     lateinit var mapperDb: PostDbToPostMapper
@@ -49,14 +50,10 @@ class PostListFragment : Fragment() {
 
         kotlin.runCatching {
 
-            postRepository.pullAllPosts()
+            viewModel.pullAllPosts()
             it.onComplete()
 
         }.onFailure { e -> it.onError(e) }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_post_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +64,7 @@ class PostListFragment : Fragment() {
             findNavController().navigate(R.id.action_postListFragment_to_createPostFragment)
         }
 
-        postRepository.getAllPost().addChangeListener { result ->
+        viewModel.getAllPost().addChangeListener { result ->
             adapter.updatePosts(result.map { mapperDb.invoke(it) })
         }
 
