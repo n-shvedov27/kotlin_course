@@ -9,12 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.PostRepository
 import com.shvedov.livinir.data.repository.PostRepositoryImpl
 import com.shvedov.livinir.presentation.MainActivity.Companion.USER_KEY
 import com.shvedov.livinir.presentation.di.DaggerAppComponent
+import com.shvedov.livinir.presentation.login.LoginViewModel
+import com.shvedov.livinir.utils.injectViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,15 +26,22 @@ import javax.inject.Inject
 class CreatePostFragment : Fragment() {
 
     @Inject
-    lateinit var postRepository: PostRepository
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var titleEditText: EditText
     private lateinit var textEditText: EditText
+    private lateinit var viewModel: CreatePostViewModel
 
     private lateinit var userId: String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerAppComponent.create().createPostComponent().inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = injectViewModel(viewModelFactory)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +53,7 @@ class CreatePostFragment : Fragment() {
 
         kotlin.runCatching {
 
-            postRepository.createPost(title, text, authorId)
+            viewModel.createPost(title, text, authorId)
             it.onComplete()
 
         }.onFailure { e -> it.onError(e) }
