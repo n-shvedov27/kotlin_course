@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.repository.PostRepository
-import com.shvedov.livinir.presentation.di.DaggerAppComponent
+import com.shvedov.livinir.di.app.DaggerAppComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), AuthService {

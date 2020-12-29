@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.shvedov.livinir.presentation.splash.SplashFragment"
+        android:name="com.shvedov.livinir.presentation.screen.splash.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.shvedov.livinir.presentation.registration.RegistrationFragment"
+        android:name="com.shvedov.livinir.presentation.screen.registration.RegistrationFragment"
         android:label="RegistrationFragment" >
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.shvedov.livinir.presentation.login.LoginFragment"
+        android:name="com.shvedov.livinir.presentation.screen.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/postListFragment"
-        android:name="com.shvedov.livinir.presentation.post_list.PostListFragment"
+        android:name="com.shvedov.livinir.presentation.screen.post_list.PostListFragment"
         android:label="PostListFragment" >
         <action
             android:id="@+id/action_postListFragment_to_postInfoFragment"
@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/postInfoFragment"
-        android:name="com.shvedov.livinir.presentation.post_info.PostInfoFragment"
+        android:name="com.shvedov.livinir.presentation.screen.post_info.PostInfoFragment"
         android:label="PostInfoFragment" >
         <argument
             android:name="username"
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
-        android:name="com.shvedov.livinir.presentation.create_post.CreatePostFragment"
+        android:name="com.shvedov.livinir.presentation.screen.create_post.CreatePostFragment"
         android:label="CreatePostFragment" />
 
 </navigation>
