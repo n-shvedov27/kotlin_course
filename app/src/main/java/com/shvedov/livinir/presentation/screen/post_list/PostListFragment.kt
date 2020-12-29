@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.mapper.PostDbToPostMapper
 import com.shvedov.livinir.di.app.DaggerAppComponent
+import com.shvedov.livinir.presentation.Authorized
+import com.shvedov.livinir.presentation.MainActivity
 import com.shvedov.livinir.presentation.core_ui.BaseFragment
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,6 +59,12 @@ class PostListFragment : BaseFragment<PostListViewModel>() {
         view.findViewById<Button>(R.id.post_list_fragment_create_post).setOnClickListener {
 
             findNavController().navigate(R.id.action_postListFragment_to_createPostFragment)
+        }
+
+        view.findViewById<View>(R.id.post_list_fragment_current_user_info).setOnClickListener {
+            val userId = ((requireActivity() as MainActivity).appState as Authorized).userId
+            val action = PostListFragmentDirections.actionPostListFragmentToUserInfoFragment(userId)
+            findNavController().navigate(action)
         }
 
         viewModel.getAllPost().addChangeListener { result ->

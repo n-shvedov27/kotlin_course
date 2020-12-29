@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.shvedov.livinir.R
+import com.shvedov.livinir.presentation.Authorized
 import com.shvedov.livinir.presentation.MainActivity
 
 class SplashFragment : Fragment() {
@@ -20,11 +21,11 @@ class SplashFragment : Fragment() {
 
         val userId = requireActivity().getPreferences(Context.MODE_PRIVATE).getString(MainActivity.USER_KEY, null)
 
-//        if (userId == null) {
+        if (userId == null) {
             findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-//        } else {
-//            findNavController().navigate(R.id.action_splashFragment_to_postListFragment)
-//        }
-
+        } else {
+            (requireActivity() as MainActivity).appState = Authorized(userId)
+            findNavController().navigate(R.id.action_splashFragment_to_postListFragment)
+        }
     }
 }

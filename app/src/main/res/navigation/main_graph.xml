@@ -13,12 +13,12 @@
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_postListFragment"
-            app:popUpTo="@id/splashFragment"
+            app:popUpTo="@id/main_graph"
             app:popUpToInclusive="true"
             app:destination="@id/postListFragment" />
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
-            app:popUpTo="@id/splashFragment"
+            app:popUpTo="@id/main_graph"
             app:popUpToInclusive="true"
             app:destination="@id/loginFragment" />
     </fragment>
@@ -29,12 +29,12 @@
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@id/registrationFragment"
+            app:popUpTo="@id/main_graph"
             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_registrationFragment_to_postListFragment"
             app:destination="@id/postListFragment"
-            app:popUpTo="@id/registrationFragment"
+            app:popUpTo="@id/main_graph"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
@@ -43,13 +43,11 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"/>
+            app:destination="@id/registrationFragment"/>
         <action
             android:id="@+id/action_loginFragment_to_postListFragment"
             app:destination="@id/postListFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/main_graph"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
@@ -62,6 +60,9 @@
         <action
             android:id="@+id/action_postListFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
+        <action
+            android:id="@+id/action_postListFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/postInfoFragment"
@@ -81,5 +82,20 @@
         android:id="@+id/createPostFragment"
         android:name="com.shvedov.livinir.presentation.screen.create_post.CreatePostFragment"
         android:label="CreatePostFragment" />
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.shvedov.livinir.presentation.screen.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <argument
+            android:name="current_user_id"
+            app:argType="string" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/main_graph"
+        app:popUpToInclusive="false" />
 
 </navigation>
