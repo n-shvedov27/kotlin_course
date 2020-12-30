@@ -84,7 +84,7 @@
         android:label="CreatePostFragment" />
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.shvedov.livinir.presentation.screen.UserInfoFragment"
+        android:name="com.shvedov.livinir.presentation.screen.user_info.UserInfoFragment"
         android:label="fragment_user_info"
         tools:layout="@layout/fragment_user_info" >
         <argument
