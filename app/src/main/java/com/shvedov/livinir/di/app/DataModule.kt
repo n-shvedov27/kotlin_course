@@ -31,7 +31,7 @@ class DataModule {
     @Provides
     @Singleton
     @Named("host")
-    fun provideHost(): String = "http://192.168.1.185/"
+    fun provideHost(): String = "http://192.168.1.125/"
 
     @Provides
     @Singleton

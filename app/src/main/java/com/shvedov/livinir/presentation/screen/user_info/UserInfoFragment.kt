@@ -5,33 +5,29 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.view.View
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import com.shvedov.livinir.R
 import com.shvedov.livinir.databinding.FragmentUserInfoBinding
 import com.shvedov.livinir.di.app.DaggerAppComponent
 import com.shvedov.livinir.presentation.AuthService
-import com.shvedov.livinir.presentation.core_ui.BaseFragment
+import com.shvedov.livinir.presentation.core_ui.DataBindingFragment
 import com.shvedov.livinir.presentation.extension.requireActivityAs
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
-class UserInfoFragment : BaseFragment<UserInfoViewModel>() {
+class UserInfoFragment : DataBindingFragment<UserInfoViewModel, FragmentUserInfoBinding>() {
 
     companion object {
         private const val REQUEST_CODE_IMAGE_PICKER = 100
     }
 
     private lateinit var currentUserId: String
-    private lateinit var binding: FragmentUserInfoBinding
+    override lateinit var binding: FragmentUserInfoBinding
 
     override val viewModel: UserInfoViewModel by injectViewModel()
     override val layoutResId = R.layout.fragment_user_info
@@ -41,20 +37,25 @@ class UserInfoFragment : BaseFragment<UserInfoViewModel>() {
         DaggerAppComponent.create().userInfoComponent().inject(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        currentUserId = UserInfoFragmentArgs.fromBundle(requireArguments()).currentUserId
-
-        binding  = DataBindingUtil.setContentView(requireActivity(), R.layout.fragment_user_info)
         binding.userInfoFragmentUploadAvatarBtn.setOnClickListener {
             requestPermission()
             openImageChooser()
         }
+
         binding.userInfoFragmentLogoutBtn.setOnClickListener {
             requireActivityAs<AuthService>().onLogout()
         }
+
         binding.userInfoVM = viewModel
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        currentUserId = UserInfoFragmentArgs.fromBundle(requireArguments()).currentUserId
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -86,11 +87,8 @@ class UserInfoFragment : BaseFragment<UserInfoViewModel>() {
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
-
         viewModel.uploadAvatar(file)
     }
-
-
 
     private fun openImageChooser() {
 
