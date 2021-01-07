@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.view.doOnPreDraw
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.shvedov.livinir.R
 import com.shvedov.livinir.data.mapper.PostDbToPostMapper
 import com.shvedov.livinir.di.app.DaggerAppComponent
@@ -24,10 +27,17 @@ class PostListFragment : BaseFragment<PostListViewModel>() {
     override val layoutResId = R.layout.fragment_post_list
 
     private lateinit var postListRecyclerView: RecyclerView
-    private val adapter = PostAdapter(emptyList()) {
+    private val adapter = PostAdapter(emptyList()) { post, view ->
 
-        val action = PostListFragmentDirections.actionPostListFragmentToPostInfoFragment(it.author.username, it.text, it.title)
-        findNavController().navigate(action)
+        val extras = FragmentNavigatorExtras(
+            view to post.id
+        )
+
+        this.sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(R.transition.li_transition)
+        this.exitTransition = null
+
+        val action = PostListFragmentDirections.actionPostListFragmentToPostInfoFragment(post.id, post.author.username, post.text, post.title)
+        findNavController().navigate(action, extras)
     }
 
     @Inject
@@ -55,6 +65,9 @@ class PostListFragment : BaseFragment<PostListViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         view.findViewById<Button>(R.id.post_list_fragment_create_post).setOnClickListener {
 

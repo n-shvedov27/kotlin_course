@@ -1,6 +1,7 @@
 package com.shvedov.livinir.presentation.screen.post_list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shvedov.livinir.R
@@ -9,7 +10,7 @@ import com.shvedov.livinir.presentation.entity.Post
 class PostAdapter(
 
     private var posts: List<Post>,
-    private val onClick: (post: Post) -> Unit
+    private val onClick: (post: Post, view: View) -> Unit
 
 ): RecyclerView.Adapter<PostViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -22,7 +23,7 @@ class PostAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener {
-            onClick.invoke(posts[position])
+            onClick.invoke(posts[position], holder.itemView.findViewById(R.id.li_item_container))
         }
         holder.bindPost(posts[position])
     }
